@@ -1,9 +1,11 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, resource, signal } from '@angular/core';
 import { SearchInputComponent } from "../../components/search-input/search-input.component";
 import { CountryListComponent } from "../../components/country-list/country-list.component";
 import { CountryService } from '../../services/country.service';
 import { RESTCountry } from '../../interfaces/rest-conutries.interfaces';
 import { CountryMapper } from '../../mapper/country.mapper';
+import { firstValueFrom, of } from 'rxjs';
+import { rxResource } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-by-country',
@@ -13,6 +15,27 @@ import { CountryMapper } from '../../mapper/country.mapper';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ByCountryPageComponent {
-  onSearch( query: string ) {
-  }
+
+  countryService = inject(CountryService);
+  query = signal('');
+
+  countryResource = rxResource({
+    request: () => ({ query: this.query() }),
+    loader: ({ request }) => {
+      if (!request.query) return of([]);
+      return this.countryService.searchByCountry(request.query)
+    }
+  })
+
+  /* countryResource = resource({
+    request: () => ({ query: this.query() }),
+    loader: async ({ request }) => {
+      if (!request.query) return [];
+      return await firstValueFrom( // Trasnforma el Observable a una Promise
+        this.countryService.searchByCountry(request.query)
+      );
+    }
+  }) */
+
+
 }
