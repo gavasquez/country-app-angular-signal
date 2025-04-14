@@ -1,15 +1,17 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { RESTCountry } from '../../interfaces/rest-conutries.interfaces';
+import { Country } from '../../interfaces/country.interface';
+import { DecimalPipe } from '@angular/common';
 
 @Component({
   selector: 'country-list',
   standalone: true,
-  imports: [],
+  imports: [ DecimalPipe ],
   templateUrl: './country-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CountryListComponent {
 
-  countries = input.required<RESTCountry[]>();
+  countries = input.required<Country[]>();
 
 }

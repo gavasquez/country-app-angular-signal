@@ -1,6 +1,9 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { SearchInputComponent } from "../../components/search-input/search-input.component";
 import { CountryListComponent } from "../../components/country-list/country-list.component";
+import { CountryService } from '../../services/country.service';
+import { RESTCountry } from '../../interfaces/rest-conutries.interfaces';
+import { CountryMapper } from '../../mapper/country.mapper';
 
 @Component({
   selector: 'app-by-country',
@@ -10,8 +13,6 @@ import { CountryListComponent } from "../../components/country-list/country-list
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ByCountryPageComponent {
-
-  onSearch( value: string ) {
-    console.log({ value });
+  onSearch( query: string ) {
   }
 }
